@@ -88,23 +88,31 @@
     <!-- Google Fonts for a restaurant feel -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Open+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
     
     <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        /* --- CSS STYLES --- */
-        
-        /* 1. Global Setup & Variables */
+        /* --- CSS VARIABLES & GLOBAL STYLES --- */
         :root {
-            --primary-color: #FFC300; /* Vibrant Yellow */
-            --secondary-color: #C70039; /* Deep Red */
-            --accent-color: #1a9988;  /* Teal */
-            --background-color: #fdfaf6; /* Warm Off-White */
-            --text-color: #333;
-            --heading-font: 'Luckiest Guy', cursive;
-            --body-font: 'Poppins', sans-serif;
+            --primary-color: #FF6B35; /* Vibrant Orange */
+            --secondary-color: #2E8B57; /* Sea Green */
+            --accent-color: #FFD700; /* Gold */
+            --dark-color: #2C3E50; /* Dark Blue-Gray */
+            --light-color: #FFF8DC; /* Cornsilk */
+            --text-dark: #333333;
+            --text-light: #666666;
+            --shadow-light: rgba(0, 0, 0, 0.1);
+            --shadow-medium: rgba(0, 0, 0, 0.15);
+            --shadow-dark: rgba(0, 0, 0, 0.3);
+            
+            --font-heading: 'Fredoka One', cursive;
+            --font-display: 'Playfair Display', serif;
+            --font-body: 'Open Sans', sans-serif;
+            
+            --border-radius: 12px;
+            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         * {
@@ -115,13 +123,15 @@
 
         html {
             scroll-behavior: smooth;
+            overflow-x: hidden;
         }
 
         body {
-            font-family: var(--body-font);
-            background-color: var(--background-color);
-            color: var(--text-color);
+            font-family: var(--font-body);
+            background: linear-gradient(135deg, var(--light-color) 0%, #ffffff 100%);
+            color: var(--text-dark);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         .container {
@@ -130,14 +140,23 @@
             padding: 0 20px;
         }
 
-        /* 2. Header & Navigation */
+        /* --- HEADER & NAVIGATION --- */
         .main-header {
-            background: #fff;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             padding: 1rem 0;
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px var(--shadow-light);
+            transition: var(--transition);
+        }
+
+        .main-header.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 4px 30px var(--shadow-medium);
         }
 
         .main-nav {
@@ -147,45 +166,61 @@
         }
 
         .logo {
-            font-family: var(--heading-font);
-            font-size: 2rem;
-            color: var(--secondary-color);
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            color: var(--primary-color);
             text-decoration: none;
+            text-shadow: 2px 2px 0px var(--accent-color);
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            color: var(--secondary-color);
         }
         
         .nav-links ul {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 2.5rem;
         }
 
         .nav-links a {
             text-decoration: none;
-            color: var(--text-color);
-            font-weight: 700;
+            color: var(--text-dark);
+            font-weight: 600;
             text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
             position: relative;
-            padding: 5px 0;
-            transition: color 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 25px;
+            transition: var(--transition);
         }
 
-        .nav-links a::after {
+        .nav-links a::before {
             content: '';
             position: absolute;
-            width: 0;
-            height: 3px;
-            bottom: -5px;
+            top: 0;
             left: 0;
-            background-color: var(--primary-color);
-            transition: width 0.3s ease;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 25px;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: var(--transition);
+            z-index: -1;
         }
 
         .nav-links a:hover {
-            color: var(--secondary-color);
+            color: white;
+            transform: translateY(-2px);
         }
 
-        .nav-links a:hover::after {
-            width: 100%;
+        .nav-links a:hover::before {
+            opacity: 1;
+            transform: scale(1);
         }
         
         .menu-toggle {
@@ -194,203 +229,523 @@
             background: none;
             border: none;
             cursor: pointer;
+            color: var(--primary-color);
+            transition: var(--transition);
         }
 
-        /* 3. Hero Section */
+        .menu-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* --- HERO SECTION --- */
         .hero {
-            height: 70vh;
-            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1300');
-            background-size: cover;
-            background-position: center;
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.8) 0%, rgba(46, 139, 87, 0.8) 100%), 
+                        url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1600&q=80') center/cover;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
             color: white;
-            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(0,0,0,0.3) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 20px;
         }
 
         .hero h1 {
-            font-family: var(--heading-font);
-            font-size: clamp(3rem, 10vw, 6rem);
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            font-family: var(--font-display);
+            font-size: clamp(3.5rem, 8vw, 7rem);
+            font-weight: 900;
+            text-shadow: 4px 4px 0px var(--primary-color), 8px 8px 0px rgba(0,0,0,0.3);
+            margin-bottom: 1rem;
+            animation: heroTitle 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            opacity: 0;
+            transform: translateY(50px);
         }
 
-        .hero p {
-            font-size: 1.5rem;
-            font-weight: 500;
-            margin-top: -1rem;
-            background: var(--primary-color);
-            color: var(--text-color);
-            padding: 0.25rem 1rem;
-            border-radius: 5px;
+        .hero .tagline {
+            font-family: var(--font-heading);
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            background: var(--accent-color);
+            color: var(--text-dark);
+            padding: 0.5rem 2rem;
+            border-radius: 50px;
+            display: inline-block;
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+            animation: heroTagline 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s forwards;
+            opacity: 0;
+            transform: translateY(30px);
         }
 
-        /* 4. Deals Section */
+        .hero-cta {
+            margin-top: 2rem;
+            animation: heroCTA 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.6s forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .btn-hero {
+            background: linear-gradient(135deg, var(--primary-color), #ff8c42);
+            color: white;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .btn-hero:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.6);
+        }
+
+        /* Floating elements animation */
+        .floating-taco {
+            position: absolute;
+            font-size: 3rem;
+            color: var(--accent-color);
+            opacity: 0.6;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-taco:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-taco:nth-child(2) {
+            top: 70%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .floating-taco:nth-child(3) {
+            bottom: 30%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        /* --- DEALS SECTION --- */
         .deals-section {
-            padding: 4rem 0;
-            background: var(--background-color);
+            padding: 6rem 0;
+            background: linear-gradient(135deg, #ffffff 0%, var(--light-color) 100%);
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .deals-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
         }
 
         .deal-card {
-            background: #fff;
-            padding: 2rem;
+            background: white;
+            padding: 3rem 2rem;
             text-align: center;
-            border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
+            border-radius: var(--border-radius);
+            box-shadow: 0 15px 40px var(--shadow-light);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .deal-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 107, 53, 0.1), transparent);
+            transform: rotate(-45deg);
+            transition: var(--transition);
+            opacity: 0;
         }
         
         .deal-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 60px var(--shadow-medium);
+        }
+
+        .deal-card:hover::before {
+            opacity: 1;
+            animation: shimmer 1.5s ease-in-out;
         }
 
         .deal-card .price {
-            font-family: var(--heading-font);
-            font-size: 3rem;
-            color: var(--secondary-color);
+            font-family: var(--font-heading);
+            font-size: 4rem;
+            color: var(--primary-color);
             margin: 0;
+            text-shadow: 2px 2px 0px var(--accent-color);
         }
 
         .deal-card h3 {
-            font-size: 1.5rem;
-            margin: 0.5rem 0 1rem 0;
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            margin: 1rem 0;
+            color: var(--text-dark);
         }
 
-        .deal-card a {
-            text-decoration: none;
-            color: var(--accent-color);
-            font-weight: 700;
-        }
-
-        /* 5. Menu Items Section */
-        #tacos-section {
-            padding: 4rem 0;
-        }
-        
-        .section-title {
-            text-align: center;
-            font-family: var(--heading-font);
-            font-size: 3rem;
+        .deal-card .description {
+            color: var(--text-light);
             margin-bottom: 2rem;
-            color: var(--secondary-color);
+            line-height: 1.6;
+        }
+
+        .btn-deal {
+            background: linear-gradient(135deg, var(--secondary-color), #3cb371);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .btn-deal:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(46, 139, 87, 0.4);
+        }
+
+        /* --- MENU ITEMS SECTION --- */
+        .menu-section {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, var(--dark-color) 0%, #34495e 100%);
+            color: white;
         }
         
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
+            gap: 2.5rem;
+            margin-top: 4rem;
         }
         
         .menu-item {
-            background: #fff;
-            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 3rem 2rem;
             text-align: center;
-            border: 1px solid #eee;
-            border-radius: 10px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: var(--transition);
+        }
+
+        .menu-item:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-item:hover::before {
+            left: 100%;
         }
 
         .menu-item i {
-            font-size: 3rem;
-            color: var(--primary-color);
+            font-size: 4rem;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
         }
         
         .menu-item h3 {
+            font-family: var(--font-display);
             font-size: 1.8rem;
-            margin: 1rem 0;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .menu-item p {
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.9);
         }
         
-        /* 6. Featured Taco Section */
-        #reservations-section {
-            padding: 4rem 0;
-            background: #fff;
+        /* --- FEATURED SECTION --- */
+        .featured-section {
+            padding: 6rem 0;
+            background: white;
         }
 
         .featured-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 3rem;
+            gap: 4rem;
             align-items: center;
         }
         
+        .featured-img {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+        }
+
         .featured-img img {
             width: 100%;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            height: 500px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .featured-img:hover img {
+            transform: scale(1.1);
+        }
+
+        .featured-img::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255, 107, 53, 0.3), rgba(46, 139, 87, 0.3));
+            opacity: 0;
+            transition: var(--transition);
+            border-radius: var(--border-radius);
+        }
+
+        .featured-img:hover::after {
+            opacity: 1;
         }
         
         .featured-text h2 {
-            font-family: var(--heading-font);
-            font-size: 2.5rem;
-            color: var(--secondary-color);
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 4vw, 3.5rem);
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            line-height: 1.2;
         }
 
         .featured-text p {
-            margin: 1rem 0 2rem 0;
+            font-size: 1.2rem;
+            color: var(--text-light);
+            line-height: 1.8;
+            margin-bottom: 3rem;
         }
 
         .btn-primary {
-            background: var(--primary-color);
-            color: var(--text-color);
-            padding: 0.8rem 2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: var(--text-dark);
+            padding: 1rem 2.5rem;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 700;
-            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            display: inline-block;
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
         }
 
         .btn-primary:hover {
-            background: #ffb700;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.5);
         }
 
-        /* 7. Footer Gallery */
-        .footer-gallery {
-            padding: 4rem 0;
-            text-align: center;
+        /* --- GALLERY SECTION --- */
+        .gallery-section {
+            padding: 6rem 0;
+            background: var(--light-color);
         }
         
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 4rem;
         }
 
-        .gallery-grid img {
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            aspect-ratio: 1;
+        }
+
+        .gallery-item img {
             width: 100%;
-            height: 150px;
+            height: 100%;
             object-fit: cover;
-            border-radius: 10px;
-            transition: transform 0.3s ease;
+            transition: var(--transition);
         }
 
-        .gallery-grid img:hover {
-            transform: scale(1.05);
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.8), rgba(46, 139, 87, 0.8));
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 1;
+        }
+
+        .gallery-item::after {
+            content: '\f00e';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            color: white;
+            font-size: 2rem;
+            z-index: 2;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover::before {
+            opacity: 1;
+        }
+
+        .gallery-item:hover::after {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
         }
         
-        /* 8. On-Scroll Animations */
+        /* --- ANIMATIONS --- */
+        @keyframes heroTitle {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes heroTagline {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes heroCTA {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        @keyframes shimmer {
+            0% { left: -50%; }
+            100% { left: 100%; }
+        }
+
+        /* Scroll animations */
         .animate-on-scroll {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         .animate-on-scroll.visible {
             opacity: 1;
             transform: translateY(0);
         }
+
+        .animate-slide-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .animate-slide-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .animate-slide-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .animate-slide-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
         
-        /* 9. Responsive Design */
+        /* --- RESPONSIVE DESIGN --- */
         @media(max-width: 768px) {
             .menu-toggle {
                 display: block;
@@ -401,11 +756,13 @@
                 top: 100%;
                 left: 0;
                 width: 100%;
-                background: #fff;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(10px);
                 flex-direction: column;
                 max-height: 0;
                 overflow: hidden;
                 transition: max-height 0.4s ease-out;
+                box-shadow: 0 10px 30px var(--shadow-light);
             }
             
             .nav-links.active {
@@ -416,11 +773,58 @@
                 flex-direction: column;
                 padding: 2rem;
                 align-items: center;
+                gap: 1rem;
             }
             
             .featured-grid {
                 grid-template-columns: 1fr;
-                text-align: center;
+                gap: 3rem;
+            }
+
+            .featured-img {
+                order: -1;
+            }
+
+            .deals-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero {
+                height: 90vh;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media(max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .deals-section,
+            .menu-section,
+            .featured-section,
+            .gallery-section {
+                padding: 4rem 0;
+            }
+
+            .deal-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .menu-item {
+                padding: 2rem 1.5rem;
             }
         }
     </style>
@@ -446,107 +850,97 @@
 
     <main>
         <section class="hero">
-            <h1 class="animate-on-scroll">Terry's Taco Joint</h1>
-            <p class="animate-on-scroll">Pretty Good Tacos!</p>
-        </section>
-
-        <section class="deals-section container">
-             <div class="deals-grid">
-                <div class="deal-card animate-on-scroll">
-                    <p class="price">$1.99</p>
-                    <h3>Tacos</h3>
-                    <a href="#">Read more →</a>
-                </div>
-                <div class="deal-card animate-on-scroll">
-                    <p class="price">$3.99</p>
-                    <h3>Kombucha</h3>
-                    <a href="#">Read more →</a>
+            <div class="floating-taco">🌮</div>
+            <div class="floating-taco">🌯</div>
+            <div class="floating-taco">🥙</div>
+            
+            <div class="hero-content">
+                <h1>Terry's Taco Joint</h1>
+                <p class="tagline">Pretty Good Tacos!</p>
+                <div class="hero-cta">
+                    <a href="#deals-section" class="btn-hero">Order Now</a>
                 </div>
             </div>
         </section>
 
-        <section id="tacos-section" class="container">
-            <div class="menu-grid">
-                <div class="menu-item animate-on-scroll">
-                    <i class="fas fa-taco"></i>
-                    <h3>Tacos</h3>
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magni exercitationem ipsam tempore, molestiae cumque nostrum.</p>
+        <section id="deals-section" class="deals-section">
+            <div class="container">
+                <div class="section-header animate-on-scroll">
+                    <h2 class="section-title">Daily Specials</h2>
+                    <p class="section-subtitle">Incredible deals that'll make your taste buds dance and your wallet happy!</p>
                 </div>
-                <div id="beers-section" class="menu-item animate-on-scroll">
-                    <i class="fas fa-beer-mug-empty"></i>
-                    <h3>Beers</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium beatae exercitationem similique dolorum tenetur.</p>
-                </div>
-                <div id="wines-section" class="menu-item animate-on-scroll">
-                    <i class="fas fa-wine-glass"></i>
-                    <h3>Wines</h3>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat molestiae nulla sit, voluptatum architecto assumenda sint.</p>
-                </div>
-                <div class="menu-item animate-on-scroll">
-                    <i class="fas fa-pepper-hot"></i>
-                    <h3>Salsas</h3>
-                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quam impedit reprehenderit nam quas temporibus esse reiciendis.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="reservations-section">
-            <div class="container featured-grid">
-                <div class="featured-text animate-on-scroll">
-                    <h2>Featured Tacos</h2>
-                    <p>Slim Profile, easy to hold and loaded with cheese. This is the one you have been waiting for!</p>
-                    <a href="#" class="btn-primary">Learn More →</a>
-                </div>
-                <div class="featured-img animate-on-scroll">
-                    <img src="https://images.unsplash.com/photo-1599457382253-96bd1a73507d?auto=format&fit=crop&w=800" alt="Delicious featured tacos on a plate">
+                
+                <div class="deals-grid">
+                    <div class="deal-card animate-on-scroll">
+                        <p class="price">$1.99</p>
+                        <h3>Classic Tacos</h3>
+                        <p class="description">Fresh corn tortillas filled with seasoned beef, lettuce, cheese, and our secret sauce.</p>
+                        <a href="#" class="btn-deal">Order Now →</a>
+                    </div>
+                    <div class="deal-card animate-on-scroll">
+                        <p class="price">$3.99</p>
+                        <h3>Craft Kombucha</h3>
+                        <p class="description">Locally brewed probiotic kombucha with unique flavors that perfectly complement our tacos.</p>
+                        <a href="#" class="btn-deal">Try Today →</a>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <footer class="footer-gallery container">
-            <h2 class="section-title animate-on-scroll">Instant Grams</h2>
-            <div class="gallery-grid">
-                <img src="https://images.unsplash.com/photo-1552332386-f8dd00dc2f85?auto=format&fit=crop&w=400" alt="Taco" class="animate-on-scroll">
-                <img src="https://images.unsplash.com/photo-1627907228175-2bf846a303b4?auto=format&fit=crop&w=400" alt="Taco" class="animate-on-scroll">
-                <img src="https://images.unsplash.com/photo-1565299585323-203692424484?auto=format&fit=crop&w=400" alt="Taco" class="animate-on-scroll">
-                <img src="https://images.unsplash.com/photo-1598515213692-5f28492416b6?auto=format&fit=crop&w=400" alt="Taco" class="animate-on-scroll">
-                <img src="https://images.unsplash.com/photo-1614707166432-f2b6d3119142?auto=format&fit=crop&w=400" alt="Taco" class="animate-on-scroll">
-                <img src="https://images.unsplash.com/photo-1625938139433-8a0a03c5391a?auto=format&fit=crop&w=400" alt="Taco" class="animate-on-scroll">
-                <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?auto=format&fit=crop&w=400" alt="Taco" class="animate-on-scroll">
-                <img src="https://images.unsplash.com/photo-1626736294762-d98ff541995a?auto=format&fit=crop&w=400" alt="Taco" class="animate-on-scroll">
+        <section id="tacos-section" class="menu-section">
+            <div class="container">
+                <div class="section-header animate-on-scroll">
+                    <h2 class="section-title" style="color: var(--accent-color);">Our Menu</h2>
+                    <p class="section-subtitle" style="color: rgba(255,255,255,0.8);">Discover the flavors that make Terry's legendary in the neighborhood</p>
+                </div>
+                
+                <div class="menu-grid">
+                    <div class="menu-item animate-on-scroll">
+                        <i class="fas fa-pepper-hot"></i>
+                        <h3>Signature Tacos</h3>
+                        <p>Our famous tacos made with fresh ingredients, perfectly seasoned meats, and our secret blend of spices that keeps customers coming back for more.</p>
+                    </div>
+                    <div id="beers-section" class="menu-item animate-on-scroll">
+                        <i class="fas fa-beer-mug-empty"></i>
+                        <h3>Craft Beers</h3>
+                        <p>Carefully selected craft beers from local breweries that pair perfectly with our spicy tacos. From light lagers to hoppy IPAs.</p>
+                    </div>
+                    <div id="wines-section" class="menu-item animate-on-scroll">
+                        <i class="fas fa-wine-glass"></i>
+                        <h3>Fine Wines</h3>
+                        <p>A curated selection of wines including crisp whites and bold reds, chosen specifically to complement our Mexican-inspired cuisine.</p>
+                    </div>
+                    <div class="menu-item animate-on-scroll">
+                        <i class="fas fa-fire-flame-simple"></i>
+                        <h3>Hot Salsas</h3>
+                        <p>House-made salsas ranging from mild to volcano-hot. Each one crafted with fresh ingredients and traditional recipes passed down for generations.</p>
+                    </div>
+                </div>
             </div>
-        </footer>
-    </main>
-    
-    <script>
-        const menuToggle = document.querySelector('.menu-toggle');
-        const navLinks = document.querySelector('.nav-links');
+        </section>
 
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
+        <section id="reservations-section" class="featured-section">
+            <div class="container">
+                <div class="featured-grid">
+                    <div class="featured-text animate-slide-left">
+                        <h2>Featured Tacos</h2>
+                        <p>Our signature creation: slim profile tacos that are easy to hold and loaded with premium aged cheese. These aren't just tacos - they're the culmination of years of perfecting the perfect bite. This is the one you've been waiting for!</p>
+                        <a href="#" class="btn-primary">Learn More →</a>
+                    </div>
+                    <div class="featured-img animate-slide-right">
+                        <img src="https://images.unsplash.com/photo-1599457382253-96bd1a73507d?auto=format&fit=crop&w=800&q=80" alt="Delicious featured tacos with melted cheese and fresh ingredients">
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        // Close menu when a link is clicked
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-            });
-        });
-        
-        // On-scroll animations
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, {
-            threshold: 0.1
-        });
-
-        document.querySelectorAll('.animate-on-scroll').forEach(el => {
-            observer.observe(el);
-        });
-    </script>
-</body>
-</html>
+        <section class="gallery-section">
+            <div class="container">
+                <div class="section-header animate-on-scroll">
+                    <h2 class="section-title">Food Gallery</h2>
+                    <p class="section-subtitle">A visual feast of our most popular dishes that'll make your mouth water</p>
+                </div>
+                
+                <div class="gallery-grid">
+                    <div class="gallery-item animate-on-scroll">
+                        <img src="https://images.unsplash.com/photo-1552332386-f8dd00dc2f85?auto=format&fit=crop&w=400&q=80
